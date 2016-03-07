@@ -1,6 +1,6 @@
 ## Preview
 
-![https://raw.githubusercontent.com/Chouffe/elm-game-of-life/gameoflife.png]
+!(Image preview)(https://raw.githubusercontent.com/Chouffe/elm-game-of-life/gameoflife.png)
 
 ## Run Locally
 
