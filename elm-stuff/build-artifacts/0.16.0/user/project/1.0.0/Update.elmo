@@ -1,0 +1,26 @@
+Elm.Update = Elm.Update || {};
+Elm.Update.make = function (_elm) {
+   "use strict";
+   _elm.Update = _elm.Update || {};
+   if (_elm.Update.values) return _elm.Update.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Board = Elm.Board.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "Next": return model;
+         case "LoadBoard": return model;
+         default: return model;}
+   });
+   var Toggle = function (a) {    return {ctor: "Toggle",_0: a};};
+   var LoadBoard = function (a) {    return {ctor: "LoadBoard",_0: a};};
+   var Next = {ctor: "Next"};
+   return _elm.Update.values = {_op: _op,Next: Next,LoadBoard: LoadBoard,Toggle: Toggle,update: update};
+};

@@ -1,0 +1,222 @@
+Elm.Board = Elm.Board || {};
+Elm.Board.make = function (_elm) {
+   "use strict";
+   _elm.Board = _elm.Board || {};
+   if (_elm.Board.values) return _elm.Board.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Array = Elm.Array.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $Utils = Elm.Utils.make(_elm);
+   var _op = {};
+   var viewCellStyle = F2(function (width,b) {
+      return $Html$Attributes.style(_U.list([{ctor: "_Tuple2"
+                                             ,_0: "flex-basis"
+                                             ,_1: A2($Basics._op["++"],$Basics.toString(100.0 / $Basics.toFloat(width)),"%")}]));
+   });
+   var rules = F3(function (self,deadCellCount,aliveCellCount) {
+      return self && _U.cmp(aliveCellCount,2) < 0 ? false : self && (_U.cmp(aliveCellCount,2) > -1 && _U.cmp(aliveCellCount,
+      3) < 1) ? true : $Basics.not(self) && _U.eq(aliveCellCount,3) ? true : false;
+   });
+   var ToggleValue = function (a) {    return {ctor: "ToggleValue",_0: a};};
+   var viewCell = F4(function (address,position,width,b) {
+      return A2($Html.div,
+      _U.list([A2(viewCellStyle,width,b)
+              ,A2($Html$Events.onClick,address,ToggleValue(position))
+              ,$Html$Attributes.$class(A2($Basics._op["++"],"cell-item",A2($Basics._op["++"]," ",b ? "cell-alive" : "cell-dead")))]),
+      _U.list([]));
+   });
+   var LoadBoard = function (a) {    return {ctor: "LoadBoard",_0: a};};
+   var selectBoardView = F2(function (address,models) {
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("btn-group pull-right")]),
+      A2($List.map,
+      function (_p0) {
+         var _p1 = _p0;
+         return A2($Html.div,
+         _U.list([$Html$Attributes.$class("btn btn-default"),A2($Html$Events.onClick,address,LoadBoard(_p1._1))]),
+         _U.list([$Html.text(_p1._0)]));
+      },
+      models));
+   });
+   var Next = {ctor: "Next"};
+   var glider = $Array.fromList(_U.list([$Array.fromList(_U.list([false,true,false,false,false,false]))
+                                        ,$Array.fromList(_U.list([false,false,true,false,false,false]))
+                                        ,$Array.fromList(_U.list([true,true,true,false,false,false]))
+                                        ,$Array.fromList(_U.list([false,false,false,false,false,false]))
+                                        ,$Array.fromList(_U.list([false,false,false,false,false,false]))
+                                        ,$Array.fromList(_U.list([false,false,false,false,false,false]))
+                                        ,$Array.fromList(_U.list([false,false,false,false,false,false]))]));
+   var pulsar = $Array.fromList(_U.list([$Array.fromList(_U.list([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]))
+                                        ,$Array.fromList(_U.list([false,false,false,true,true,true,false,false,false,true,true,true,false,false,false]))
+                                        ,$Array.fromList(_U.list([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]))
+                                        ,$Array.fromList(_U.list([false,true,false,false,false,false,true,false,true,false,false,false,false,true,false]))
+                                        ,$Array.fromList(_U.list([false,true,false,false,false,false,true,false,true,false,false,false,false,true,false]))
+                                        ,$Array.fromList(_U.list([false,true,false,false,false,false,true,false,true,false,false,false,false,true,false]))
+                                        ,$Array.fromList(_U.list([false,false,false,true,true,true,false,false,false,true,true,true,false,false,false]))
+                                        ,$Array.fromList(_U.list([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]))
+                                        ,$Array.fromList(_U.list([false,false,false,true,true,true,false,false,false,true,true,true,false,false,false]))
+                                        ,$Array.fromList(_U.list([false,true,false,false,false,false,true,false,true,false,false,false,false,true,false]))
+                                        ,$Array.fromList(_U.list([false,true,false,false,false,false,true,false,true,false,false,false,false,true,false]))
+                                        ,$Array.fromList(_U.list([false,true,false,false,false,false,true,false,true,false,false,false,false,true,false]))
+                                        ,$Array.fromList(_U.list([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]))
+                                        ,$Array.fromList(_U.list([false,false,false,true,true,true,false,false,false,true,true,true,false,false,false]))
+                                        ,$Array.fromList(_U.list([false
+                                                                 ,false
+                                                                 ,false
+                                                                 ,false
+                                                                 ,false
+                                                                 ,false
+                                                                 ,false
+                                                                 ,false
+                                                                 ,false
+                                                                 ,false
+                                                                 ,false
+                                                                 ,false
+                                                                 ,false
+                                                                 ,false
+                                                                 ,false]))]));
+   var boards = _U.list([{ctor: "_Tuple2",_0: "Glider",_1: glider},{ctor: "_Tuple2",_0: "Pulsar",_1: pulsar}]);
+   var assocIn = F3(function (model,position,x) {
+      var _p2 = A2($Array.get,position.x,model);
+      if (_p2.ctor === "Nothing") {
+            return model;
+         } else {
+            var updatedRow = A3($Array.set,position.y,x,_p2._0);
+            return A3($Array.set,position.x,updatedRow,model);
+         }
+   });
+   var getIn = F2(function (model,position) {
+      var _p3 = A2($Array.get,position.x,model);
+      if (_p3.ctor === "Nothing") {
+            return $Maybe.Nothing;
+         } else {
+            return A2($Array.get,position.y,_p3._0);
+         }
+   });
+   var updateIn = F3(function (model,position,f) {
+      var _p4 = A2(getIn,model,position);
+      if (_p4.ctor === "Nothing") {
+            return model;
+         } else {
+            return A3(assocIn,model,position,f(_p4._0));
+         }
+   });
+   var isDead = F2(function (model,position) {
+      var _p5 = A2(getIn,model,position);
+      if (_p5.ctor === "Nothing") {
+            return false;
+         } else {
+            return $Basics.not(_p5._0);
+         }
+   });
+   var isAlive = function (model) {    return function (_p6) {    return $Basics.not(A2(isDead,model,_p6));};};
+   var width = function (model) {    var _p7 = A2($Array.get,0,model);if (_p7.ctor === "Nothing") {    return 0;} else {    return $Array.length(_p7._0);}};
+   var height = function (model) {    return $Array.length(model);};
+   var isValid = F2(function (model,position) {
+      var y = position.y;
+      var x = position.x;
+      var h = height(model);
+      var w = width(model);
+      return _U.cmp(x,h) > -1 ? false : _U.cmp(y,w) > -1 ? false : _U.cmp(x,0) < 0 ? false : _U.cmp(y,0) < 0 ? false : true;
+   });
+   var position = F2(function (i,j) {    return {x: i,y: j};});
+   var positions = function (model) {
+      var h = height(model);
+      var w = width(model);
+      return A2($List.concatMap,function (i) {    return A2($List.map,position(i),A2($Utils.range,0,w));},A2($Utils.range,0,h));
+   };
+   var intToPosition = F2(function (n,width) {    return A2(position,n / width | 0,A2($Basics._op["%"],n,width));});
+   var view = F2(function (address,model) {
+      var w = width(model);
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("game-container")]),
+      _U.list([$Utils.css("game.css")
+              ,$Utils.css("//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css")
+              ,A2($Html.div,
+              _U.list([$Html$Attributes.$class("button-container")]),
+              _U.list([A2($Html.div,_U.list([$Html$Attributes.$class("btn btn-default"),A2($Html$Events.onClick,address,Next)]),_U.list([$Html.text("Next")]))
+                      ,A2(selectBoardView,address,boards)]))
+              ,A2($Html.div,
+              _U.list([$Html$Attributes.$class("board-container")]),
+              A2($List.indexedMap,F2(function (k,b) {    return A4(viewCell,address,A2(intToPosition,k,w),w,b);}),$Array.toList($Utils.concat(model))))]));
+   });
+   var neighbors = F2(function (model,pos) {
+      var y = pos.y;
+      var x = pos.x;
+      var h = height(model);
+      var w = width(model);
+      return A2($List.filter,
+      isValid(model),
+      A2($List.map,
+      function (_p8) {
+         var _p9 = _p8;
+         return A2(position,_p9._0,_p9._1);
+      },
+      _U.list([{ctor: "_Tuple2",_0: x + 1,_1: y}
+              ,{ctor: "_Tuple2",_0: x + 1,_1: y + 1}
+              ,{ctor: "_Tuple2",_0: x + 1,_1: y - 1}
+              ,{ctor: "_Tuple2",_0: x,_1: y + 1}
+              ,{ctor: "_Tuple2",_0: x,_1: y - 1}
+              ,{ctor: "_Tuple2",_0: x - 1,_1: y}
+              ,{ctor: "_Tuple2",_0: x - 1,_1: y + 1}
+              ,{ctor: "_Tuple2",_0: x - 1,_1: y - 1}])));
+   });
+   var nextCellState = F2(function (model,position) {
+      var neighbs = A2(neighbors,model,position);
+      var deadCellCount = $List.length(A2($List.filter,isDead(model),neighbs));
+      var aliveCellCount = $List.length(A2($List.filter,isAlive(model),neighbs));
+      var _p10 = A2(getIn,model,position);
+      if (_p10.ctor === "Nothing") {
+            return false;
+         } else {
+            return A3(rules,_p10._0,deadCellCount,aliveCellCount);
+         }
+   });
+   var next = function (model) {
+      return A3($List.foldl,F2(function (position,m) {    return A3(assocIn,m,position,A2(nextCellState,model,position));}),model,positions(model));
+   };
+   var update = F2(function (action,model) {
+      var _p11 = action;
+      switch (_p11.ctor)
+      {case "Next": return next(model);
+         case "LoadBoard": return _p11._0;
+         default: return A3(updateIn,model,_p11._0,$Basics.not);}
+   });
+   var Position = F2(function (a,b) {    return {x: a,y: b};});
+   return _elm.Board.values = {_op: _op
+                              ,Position: Position
+                              ,position: position
+                              ,positions: positions
+                              ,intToPosition: intToPosition
+                              ,height: height
+                              ,width: width
+                              ,getIn: getIn
+                              ,assocIn: assocIn
+                              ,updateIn: updateIn
+                              ,pulsar: pulsar
+                              ,glider: glider
+                              ,boards: boards
+                              ,Next: Next
+                              ,LoadBoard: LoadBoard
+                              ,ToggleValue: ToggleValue
+                              ,update: update
+                              ,isValid: isValid
+                              ,neighbors: neighbors
+                              ,isDead: isDead
+                              ,isAlive: isAlive
+                              ,rules: rules
+                              ,next: next
+                              ,nextCellState: nextCellState
+                              ,viewCell: viewCell
+                              ,selectBoardView: selectBoardView
+                              ,view: view
+                              ,viewCellStyle: viewCellStyle};
+};

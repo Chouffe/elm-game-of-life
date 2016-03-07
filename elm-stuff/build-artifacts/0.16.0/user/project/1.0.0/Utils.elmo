@@ -1,0 +1,21 @@
+Elm.Utils = Elm.Utils || {};
+Elm.Utils.make = function (_elm) {
+   "use strict";
+   _elm.Utils = _elm.Utils || {};
+   if (_elm.Utils.values) return _elm.Utils.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Array = Elm.Array.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var concat = function (xss) {    return $Array.fromList($List.concat($Array.toList(A2($Array.map,$Array.toList,xss))));};
+   var range = F2(function (start,end) {    return _U.cmp(start,end) > -1 ? _U.list([]) : A2($List._op["::"],start,A2(range,start + 1,end));});
+   var css = function (path) {    return A3($Html.node,"link",_U.list([$Html$Attributes.rel("stylesheet"),$Html$Attributes.href(path)]),_U.list([]));};
+   return _elm.Utils.values = {_op: _op,css: css,range: range,concat: concat};
+};

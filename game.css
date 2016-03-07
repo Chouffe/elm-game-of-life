@@ -1,0 +1,22 @@
+.game-container {
+    max-width: 400px;
+    margin: auto;
+}
+.board-container {
+    display: flex;
+    min-height: 300px;
+    min-width: 300px;
+    flex-flow: row wrap;
+}
+.cell-item {
+    flex-grow: 1;
+    cursor: pointer;
+    min-width: 8px;
+    min-height: 8px;
+}
+.cell-dead {
+    background-color: #3E687E;
+}
+.cell-alive {
+    background-color: #64938D;
+}

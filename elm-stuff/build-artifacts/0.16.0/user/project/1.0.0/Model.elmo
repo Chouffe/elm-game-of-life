@@ -1,0 +1,20 @@
+Elm.Model = Elm.Model || {};
+Elm.Model.make = function (_elm) {
+   "use strict";
+   _elm.Model = _elm.Model || {};
+   if (_elm.Model.values) return _elm.Model.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Array = Elm.Array.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var board = $Array.fromList(_U.list([$Array.fromList(_U.list([false,false,false,false]))
+                                       ,$Array.fromList(_U.list([false,true,false,false]))
+                                       ,$Array.fromList(_U.list([false,false,true,false]))
+                                       ,$Array.fromList(_U.list([false,false,false,false]))]));
+   return _elm.Model.values = {_op: _op,board: board};
+};
